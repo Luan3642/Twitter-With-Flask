@@ -2,6 +2,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_script import Manager
 from flask_migrate import Migrate, MigrateCommand 
+from flask_login import LoginManager
 
 # instância do flask, essa instância recebe uma variável
 # essa variável vai controlar a aplicação inteira 
@@ -14,4 +15,8 @@ migrate = Migrate(app, db)
 manager = Manager(app)
 manager.add_command('db', MigrateCommand)
 
+
+lm = LoginManager(app)
+
+from app.models import tables, forms
 from app.controllers import default 

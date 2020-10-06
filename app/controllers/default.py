@@ -1,7 +1,8 @@
-from  app import app 
-from flask import render_template
+from  app import app, db
+from flask import render_template, flash
+from flask_login import login_user
 
-
+from app.models.tables import User
 from app.models.forms import LoginForm
 
 @app.route("/index")
@@ -24,8 +25,41 @@ def login():
     form = LoginForm()
 
     if form.validate_on_submit():
-        print(form.username.data)
-        print(form.password.data)
+       user = User.query.filter_by(username=form.username.data).first()
+       if user and user.password == form.data.password:
+           login_user(user)
+           flash("Logged in ")
+       else: 
+            flash("invalid login ")
     else:
         print(form.errors)
     return render_template("login.html", form=form)
+
+
+
+
+
+# @app.route("/teste/<info>")
+# @app.route("/teste", defaults={"info": None })
+
+#faz criacao
+# def teste(info):
+#     i = User("luan", "1234", "LuanMagalhaes", "luan777@hsasail.com")
+#     db.session.add(i)
+#     db.session.commit()
+#     return "Ok"
+
+
+#faz consulta
+# def teste(info):
+#     r = User.query.filter_by(username="luan").all()
+#     print(r)
+#     return "ok"
+
+
+# DELETE
+# def teste(info):
+#     r = User.query.filter_by(username="luan").all()
+#     db.session.delete(r)
+#     db.session.commit()
+#     return "OK"
