@@ -14,3 +14,8 @@ def index():
 #         return "Ola, %s" % name
 #     else:
 #         return "Olá, usuário"
+
+
+@app.route("/login")
+def login():
+    return render_template("login.html")
